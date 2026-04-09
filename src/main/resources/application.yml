@@ -25,8 +25,8 @@ spring:
   # Spring AI Zhipu AI 配置 (智谱官方)
   ai:
     zhipuai:
-      # 智谱 AI API Key (建议使用环境变量)
-      api-key: ${ZHIPUAI_API_KEY:264f4a4c6f5645bb989f3c1927262b20.Dm0mnfnCDTADikvt}
+      # 智谱 AI API Key (使用环境变量或 application-dev.yml 配置)
+      api-key: ${ZHIPUAI_API_KEY:}
       chat:
         options:
           model: glm-4-flash

@@ -19,3 +19,7 @@ Thumbs.db
 
 # API Key (security)
 # 如果 application.yml 包含敏感信息，考虑使用环境变量
+# 排除包含 API Key 的开发环境配置
+application-dev.yml
+application-*.yml
+!application.yml
