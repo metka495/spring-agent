@@ -1,30 +1,26 @@
 package com.example.agent.config;
 
 import com.alibaba.cloud.ai.graph.agent.ReactAgent;
-import com.example.agent.service.AgentService;
 import com.example.agent.tool.CalculatorTool;
 import com.example.agent.tool.WeatherTool;
 import org.springframework.ai.chat.model.ChatModel;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 /**
  * Agent 配置类 - 使用 ReactAgent 构建智能体
+ * Studio 通过 Spring ApplicationContext 自动扫描 Agent Bean
  */
 @Configuration
 public class AgentConfiguration {
-
-    @Autowired
-    private AgentService agentService;
 
     /**
      * 创建聊天助手 Agent
      * 这个 Agent 可以使用天气查询和计算器工具
      */
-    @Bean("chatAgent")
+    @Bean
     public ReactAgent chatAgent(ChatModel chatModel, WeatherTool weatherTool, CalculatorTool calculatorTool) {
-        ReactAgent agent = ReactAgent.builder()
+        return ReactAgent.builder()
                 .name("chat-agent")
                 .description("一个智能聊天助手，可以查询天气信息、进行数学计算，并与用户进行自然对话")
                 .model(chatModel)
@@ -39,17 +35,15 @@ public class AgentConfiguration {
                         """)
                 .methodTools(weatherTool, calculatorTool)
                 .build();
-        agentService.registerAgent("chatAgent", agent);
-        return agent;
     }
 
     /**
      * 创建计算专家 Agent
      * 专注于数学计算
      */
-    @Bean("calculatorAgent")
+    @Bean
     public ReactAgent calculatorAgent(ChatModel chatModel, CalculatorTool calculatorTool) {
-        ReactAgent agent = ReactAgent.builder()
+        return ReactAgent.builder()
                 .name("calculator-agent")
                 .description("数学计算专家，擅长各种数学运算")
                 .model(chatModel)
@@ -63,17 +57,15 @@ public class AgentConfiguration {
                         """)
                 .methodTools(calculatorTool)
                 .build();
-        agentService.registerAgent("calculatorAgent", agent);
-        return agent;
     }
 
     /**
      * 创建天气助手 Agent
      * 专注于天气查询
      */
-    @Bean("weatherAgent")
+    @Bean
     public ReactAgent weatherAgent(ChatModel chatModel, WeatherTool weatherTool) {
-        ReactAgent agent = ReactAgent.builder()
+        return ReactAgent.builder()
                 .name("weather-agent")
                 .description("天气查询助手，可以查询各城市的天气信息")
                 .model(chatModel)
@@ -86,7 +78,5 @@ public class AgentConfiguration {
                         """)
                 .methodTools(weatherTool)
                 .build();
-        agentService.registerAgent("weatherAgent", agent);
-        return agent;
     }
 }
