@@ -1,0 +1,56 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: spring-ai-agent
+
+  # 允许 Bean 定义覆盖（解决依赖冲突）
+  main:
+    allow-bean-definition-overriding: true
+
+  # 自动配置排除（排除所有 DashScope 自动配置，使用 Zhipu AI）
+  autoconfigure:
+    exclude:
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeChatAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAudioSpeechAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAudioTranscriptionAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeImageAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeAgentAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeEmbeddingAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeRerankAutoConfiguration
+      - com.alibaba.cloud.ai.autoconfigure.dashscope.DashScopeVideoAutoConfiguration
+
+  # Spring AI Zhipu AI 配置 (智谱官方)
+  ai:
+    zhipuai:
+      # 智谱 AI API Key (建议使用环境变量)
+      api-key: ${ZHIPUAI_API_KEY:264f4a4c6f5645bb989f3c1927262b20.Dm0mnfnCDTADikvt}
+      chat:
+        options:
+          model: glm-4-flash
+          temperature: 0.7
+
+  # Agent Chat UI 配置
+  ai.alibaba.agent:
+    # 启用 Agent Chat UI
+    enabled: true
+
+# 日志配置
+logging:
+  level:
+    org.springframework.ai: DEBUG
+    org.springframework.ai.zhipuai: DEBUG
+    com.alibaba.cloud.ai: DEBUG
+    com.example.agent: DEBUG
+
+# Agent 配置
+agent:
+  # 默认 Agent 名称
+  default-agent: chatAgent
+  # 启用的 Agent 列表
+  enabled-agents:
+    - chatAgent
+    - calculatorAgent
+    - weatherAgent
